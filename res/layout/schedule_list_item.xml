@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.235"
+        android:id="@+id/name_time_sep"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Jazz Band - 1"
+        android:id="@+id/schedule_item_name"
+        app:layout_constraintLeft_toLeftOf="@+id/name_time_sep"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="start"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="7:30 AM"
+        android:id="@+id/schedule_item_start"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/name_time_sep"
+        android:gravity="end"
+        android:paddingStart="24dp"
+        android:paddingEnd="0dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="8:15 AM"
+        android:id="@+id/schedule_item_end"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/name_time_sep"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_item_start"
+        android:gravity="end"
+        android:paddingStart="24dp"
+        android:paddingEnd="0dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="16dp"/>
+    
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="B"
+        android:gravity="right"
+        android:id="@+id/schedule_item_block"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="24dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="S105"
+        android:gravity="right"
+        android:id="@+id/schedule_item_room"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_item_block"
+        android:paddingTop="4dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="24dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Bobby Oldfield"
+        android:id="@+id/schedule_item_teacher"
+        app:layout_constraintLeft_toLeftOf="@id/name_time_sep"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_item_name"
+        android:paddingTop="4dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="4dp" />
+
+</android.support.constraint.ConstraintLayout>

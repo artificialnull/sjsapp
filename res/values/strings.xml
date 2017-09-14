@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">SJSApp</string>
+    <string name="drawer_name">Pages</string>
+    <string name="drawer_open">OpenDrawer</string>
+    <string name="drawer_close">CloseDrawer</string>
+    <string name="arrow_left">Previous Day</string>
+    <string name="arrow_right">Next Day</string>
+
+    <string name="html_test">
+        <![CDATA[
+        <h1>Main Title</h1>
+        <h2>A sub-title</h2>
+        <p>This is some html. Look, here\'s an <u>underline</u>.</p>
+        <p>Look, this is <em>emphasized.</em> And here\'s some <b>bold</b>.</p>
+        <p>This is a UL list:
+        <ul>
+        <li>One</li>
+        <li>Two</li>
+        <li>Three</li>
+        </ul>
+        <p>This is an OL list:
+        <ol>
+        <li>One</li>
+        <li>Two</li>
+        <li>Three</li>
+        </ol>
+        ]]>
+    </string>
+
+    <string-array name="drawer_items">
+        <item>Schedule</item>
+        <item>Assignments</item>
+    </string-array>
+</resources>

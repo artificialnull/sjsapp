@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/assignment_item_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="16dp"
+    android:paddingBottom="8dp">
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.025"
+        android:id="@+id/left_spacer"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.975"
+        android:id="@+id/right_spacer"/>
+
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25"
+        android:id="@+id/name_time_sep"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"
+        android:id="@+id/name_info_sep"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Jazz Band - 1"
+        android:id="@+id/assignment_item_class"
+        app:layout_constraintLeft_toLeftOf="@+id/name_time_sep"
+        app:layout_constraintRight_toRightOf="@+id/name_info_sep"
+        android:gravity="start"
+        android:paddingBottom="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="8/23/2017"
+        android:id="@+id/assignment_item_assign"
+        app:layout_constraintLeft_toLeftOf="@id/left_spacer"
+        app:layout_constraintRight_toRightOf="@+id/name_time_sep"
+        android:gravity="start"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="8/26/2017"
+        android:id="@+id/assignment_item_due"
+        app:layout_constraintLeft_toLeftOf="@id/left_spacer"
+        app:layout_constraintRight_toRightOf="@id/name_time_sep"
+        app:layout_constraintTop_toBottomOf="@+id/assignment_item_class"
+        android:gravity="start"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Quiz"
+        android:gravity="right"
+        android:id="@+id/assignment_item_type"
+        app:layout_constraintRight_toRightOf="@id/right_spacer"
+        app:layout_constraintLeft_toLeftOf="@+id/name_info_sep"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="4dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="In Progress"
+        android:gravity="right"
+        android:id="@+id/assignment_item_status"
+        app:layout_constraintRight_toRightOf="@id/right_spacer"
+        app:layout_constraintLeft_toLeftOf="@+id/name_info_sep"
+        app:layout_constraintTop_toBottomOf="@+id/assignment_item_class"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp" />
+
+    <org.sufficientlysecure.htmltextview.HtmlTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Practice!!1!"
+        android:id="@+id/assignment_item_short"
+        app:layout_constraintLeft_toLeftOf="@id/name_time_sep"
+        app:layout_constraintRight_toLeftOf="@+id/assignment_item_status"
+        app:layout_constraintTop_toBottomOf="@+id/assignment_item_class"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp" />
+
+    <org.sufficientlysecure.htmltextview.HtmlTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/left_spacer"
+        app:layout_constraintRight_toRightOf="@id/right_spacer"
+        app:layout_constraintTop_toBottomOf="@+id/assignment_item_short"
+        android:id="@+id/assignment_item_long"
+        android:visibility="gone"
+        android:paddingBottom="8dp"/>
+
+</android.support.constraint.ConstraintLayout>
