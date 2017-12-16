@@ -5,6 +5,12 @@
     <string name="drawer_close">CloseDrawer</string>
     <string name="arrow_left">Previous Day</string>
     <string name="arrow_right">Next Day</string>
+    <string name="sort_button">Sort By</string>
+
+    <string name="due_sort">Due</string>
+    <string name="assigned_sort">Assigned</string>
+    <string name="class_sort">Class</string>
+
 
     <string name="html_test">
         <![CDATA[

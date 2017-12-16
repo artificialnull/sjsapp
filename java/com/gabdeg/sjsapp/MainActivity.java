@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  * Created by ishan on 8/21/17.
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MenuItem scheduleLeftArrow;
     private MenuItem scheduleRightArrow;
+    private MenuItem assignmentSorting;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList.addHeaderView(getLayoutInflater()
                 .inflate(R.layout.drawer_header, mDrawerList, false), null, false);
 
-        mDrawerList.setItemChecked(0, true);
-
         mDrawerList.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -94,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 scheduleLeftArrow.setVisible(true);
                                 scheduleRightArrow.setVisible(true);
+                                assignmentSorting.setVisible(false);
 
                                 break;
                             case "Assignments":
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 scheduleLeftArrow.setVisible(false);
                                 scheduleRightArrow.setVisible(false);
+                                assignmentSorting.setVisible(true);
 
                                 break;
                             default:
@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
         );
+
+        mDrawerList.setItemChecked(1, true);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -131,9 +133,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.schedule, menu);
+        getMenuInflater().inflate(R.menu.actions, menu);
         scheduleLeftArrow = menu.findItem(R.id.action_left);
         scheduleRightArrow = menu.findItem(R.id.action_right);
+        assignmentSorting = menu.findItem(R.id.action_sort);
         return true;
     }
 
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         ScheduleFragment sf;
+        AssignmentFragment af;
         switch (item.getItemId()) {
             case R.id.action_left:
                 sf = (ScheduleFragment) getSupportFragmentManager()
@@ -155,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
                         .findFragmentById(R.id.content_frame);
                 sf.travelForwardInTime();
                 return true;
+            case R.id.action_sort:
+                af = (AssignmentFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.content_frame);
+                af.showSortByMenu(findViewById(R.id.action_sort));
             default:
                 return super.onOptionsItemSelected(item);
         }

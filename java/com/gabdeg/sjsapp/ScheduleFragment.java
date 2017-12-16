@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,7 @@ public class ScheduleFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private AppCompatActivity mContext;
 
     public ArrayList<Browser.ScheduledClass> scheduledClasses;
     Calendar calendar = Calendar.getInstance();
@@ -49,9 +51,16 @@ public class ScheduleFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL));
+        mContext = (AppCompatActivity) getActivity();
         new GetScheduleTask().execute();
         return view;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        new GetScheduleTask().execute();
     }
 
     public void travelBackInTime() {
@@ -75,20 +84,21 @@ public class ScheduleFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
             Browser browser = new Browser();
             browser.validateLogIn(
-                    PreferenceManager.getDefaultSharedPreferences(getContext())
+                    PreferenceManager.getDefaultSharedPreferences(mContext)
                             .getString("username", "username"),
-                    PreferenceManager.getDefaultSharedPreferences(getContext())
+                    PreferenceManager.getDefaultSharedPreferences(mContext)
                             .getString("password", "password")
 
             );
             scheduledClasses = browser.getScheduleList(calendar.getTime());
+
             if (scheduledClasses.size() == 0) {
                 scheduledClasses.add(
                         new Browser.ScheduledClass()
                                 .setClassName("Nothing scheduled")
-                                .setClassStart("")
-                                .setClassEnd("")
-                                .setClassTeacher("")
+                                .setClassStart("8:30 AM")
+                                .setClassEnd("3:35 PM")
+                                .setClassTeacher("SJS")
                                 .setClassRoom("")
                                 .setClassBlock("")
                 );
@@ -110,6 +120,7 @@ public class ScheduleFragment extends Fragment {
             public TextView mClassBlock;
             public TextView mClassRoom;
             public TextView mClassTeacher;
+            public View mClassHighlight;
 
             public ViewHolder(View v) {
                 super(v);
@@ -119,6 +130,7 @@ public class ScheduleFragment extends Fragment {
                 mClassBlock = (TextView) v.findViewById(R.id.schedule_item_block);
                 mClassRoom = (TextView) v.findViewById(R.id.schedule_item_room);
                 mClassTeacher = (TextView) v.findViewById(R.id.schedule_item_teacher);
+                mClassHighlight = (View) v.findViewById(R.id.schedule_item_highlight);
             }
         }
 
@@ -134,8 +146,38 @@ public class ScheduleFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Browser.ScheduledClass scheduledClass = scheduledClasses.get(position);
             holder.mClassName.setText(scheduledClass.getClassName());
-            holder.mClassStart.setText(scheduledClass.getClassStart());
-            holder.mClassEnd.setText(scheduledClass.getClassEnd());
+
+            SimpleDateFormat fromFormat = new SimpleDateFormat("hh:mm aa");
+            SimpleDateFormat toFormat = new SimpleDateFormat("HH:mm");
+            try {
+                holder.mClassStart.setText(
+                        toFormat.format(fromFormat.parse(scheduledClass.getClassStart()))
+                );
+                holder.mClassEnd.setText(
+                        toFormat.format(fromFormat.parse(scheduledClass.getClassEnd()))
+                );
+
+                Calendar today = Calendar.getInstance();
+                Calendar calStart = Calendar.getInstance();
+                calStart.setTime(fromFormat.parse(scheduledClass.getClassStart()));
+                calStart.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
+                Calendar calEnd = Calendar.getInstance();
+                calEnd.setTime(fromFormat.parse(scheduledClass.getClassEnd()));
+                calEnd.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
+
+
+                if (today.getTime().after(calEnd.getTime())) {
+                    holder.mClassHighlight.setBackgroundResource(R.color.completedColor);
+                } else if (today.getTime().before(calStart.getTime())) {
+                    holder.mClassHighlight.setBackgroundResource(R.color.toDoColor);
+                } else {
+                    holder.mClassHighlight.setBackgroundResource(R.color.inProgressColor);
+                }
+
+            } catch (ParseException err) {
+                err.printStackTrace();
+            }
+
             holder.mClassBlock.setText(scheduledClass.getClassBlock());
             holder.mClassRoom.setText(scheduledClass.getClassRoom());
             holder.mClassTeacher.setText(scheduledClass.getClassTeacher());

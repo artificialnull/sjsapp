@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/action_left"
         android:icon="@drawable/left"
         android:title="@string/arrow_left"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_right"
         android:icon="@drawable/right"
         android:title="@string/arrow_right"
-        app:showAsAction="ifRoom"
-        />
+        app:showAsAction="always" />
 
-
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@drawable/sort"
+        android:title="@string/sort_button"
+        app:showAsAction="always"
+        android:visible="false"/>
 </menu>

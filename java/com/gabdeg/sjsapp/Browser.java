@@ -231,7 +231,12 @@ public class Browser {
                     Arrays.asList(choices).indexOf(assignment.getAssignmentStatus()) - 1
             );
             Log.v("ASSIGNMENTS", toPost.toString(2));
-            postJSON("https://sjs.myschoolapp.com/api/assignment2/assignmentstatusupdate", toPost);
+            postJSON("https://sjs.myschoolapp.com/api/assignment2/assignmentstatusupdate"
+                    + "?format=json"
+                    + "&assignmentIndexId=" + toPost.getString("assignmentIndexId")
+                    + "&assignmentStatus=" + toPost.getString("assignmentStatus"),
+                    toPost
+            );
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
