@@ -1,7 +1,6 @@
 package com.gabdeg.sjsapp;
 
 
-import android.preference.Preference;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -35,6 +34,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class Browser {
 
     static CookieManager cookieManager = new CookieManager();
+    static String requestVerificationToken;
 
     public Browser() {
         CookieHandler.setDefault(cookieManager);
@@ -50,7 +50,21 @@ public class Browser {
                     )
             );
             Log.v("GET", "There exist >0 cookies");
+            for (HttpCookie cookie : cookieManager.getCookieStore().getCookies()) {
+                Log.v("GET", "Cookie: " + cookie);
+            }
         }
+
+        Map<String, List<String>> headerFields = urlConnection.getHeaderFields();
+        List<String> cookieHeader = headerFields.get("Set-Cookie");
+
+        if (cookieHeader != null) {
+            for (String cookie : cookieHeader) {
+                cookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
+                Log.v("GET", "Cookie recv: " + cookie);
+            }
+        }
+
         return urlConnection.getInputStream();
     }
 
@@ -72,6 +86,7 @@ public class Browser {
         urlConnection.setDoOutput(true);
         urlConnection.setChunkedStreamingMode(0);
         urlConnection.setRequestProperty("Content-Type", "application/json");
+        urlConnection.setRequestProperty("requestverificationtoken", requestVerificationToken);
 
         OutputStream outp = urlConnection.getOutputStream();
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outp, "UTF-8"));
@@ -125,6 +140,11 @@ public class Browser {
 
     public boolean signIn(String username, String password) {
         try {
+
+            requestVerificationToken = getAsString("https://sjs.myschoolapp.com")
+                    .split("__AjaxAntiForgery")[1].split("value=\"")[1].split("\"")[0];
+            // this is some really awful parsing but whatever
+            Log.v("TOKEN", requestVerificationToken);
 
             JSONObject toPost = new JSONObject();
             toPost.put("Username", username);
@@ -212,6 +232,7 @@ public class Browser {
                                 .setAssignmentDue(jsonAssignment.getString("date_due"))
                                 .setAssignmentStatus(jsonAssignment.getInt("assignment_status"))
                                 .setAssignmentIndexID(jsonAssignment.getInt("assignment_index_id"))
+                                .setAssignmentID(jsonAssignment.getInt("assignment_id"))
                 );
             }
             return assignments;
@@ -227,10 +248,11 @@ public class Browser {
             JSONObject toPost = new JSONObject();
             toPost.put("assignmentIndexId", assignment.assignmentIndexID);
             String[] choices = {"To Do", "In Progress", "Completed"};
-            toPost.put("assignmentStatus",
+            toPost.put("assignmentStatus", String.valueOf(
                     Arrays.asList(choices).indexOf(assignment.getAssignmentStatus()) - 1
-            );
+            ));
             Log.v("ASSIGNMENTS", toPost.toString(2));
+            Log.v("token", requestVerificationToken);
             postJSON("https://sjs.myschoolapp.com/api/assignment2/assignmentstatusupdate"
                     + "?format=json"
                     + "&assignmentIndexId=" + toPost.getString("assignmentIndexId")
@@ -353,6 +375,17 @@ public class Browser {
         }
 
         int assignmentIndexID;
+
+        public int getAssignmentID() {
+            return assignmentID;
+        }
+
+        public Assignment setAssignmentID(int assignmentID) {
+            this.assignmentID = assignmentID;
+            return this;
+        }
+
+        int assignmentID;
     }
 
     public static class ScheduledClass {

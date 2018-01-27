@@ -106,14 +106,4 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp" />
 
-    <org.sufficientlysecure.htmltextview.HtmlTextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/left_spacer"
-        app:layout_constraintRight_toRightOf="@id/right_spacer"
-        app:layout_constraintTop_toBottomOf="@+id/assignment_item_short"
-        android:id="@+id/assignment_item_long"
-        android:visibility="gone"
-        android:paddingBottom="8dp"/>
-
 </android.support.constraint.ConstraintLayout>

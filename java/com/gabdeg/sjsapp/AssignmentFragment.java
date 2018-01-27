@@ -1,5 +1,6 @@
 package com.gabdeg.sjsapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
@@ -184,9 +186,6 @@ public class AssignmentFragment extends Fragment {
             public TextView mAssignmentType;
             public HtmlTextView mAssignmentShort;
             public TextView mAssignmentStatus;
-            public HtmlTextView mAssignmentLong;
-            public ConstraintLayout mAssignmentLayout;
-
 
             public ViewHolder(View v) {
                 super(v);
@@ -196,8 +195,6 @@ public class AssignmentFragment extends Fragment {
                 mAssignmentStatus = (TextView) v.findViewById(R.id.assignment_item_status);
                 mAssignmentType = (TextView) v.findViewById(R.id.assignment_item_type);
                 mAssignmentShort = (HtmlTextView) v.findViewById(R.id.assignment_item_short);
-                mAssignmentLong = (HtmlTextView) v.findViewById(R.id.assignment_item_long);
-                mAssignmentLayout = (ConstraintLayout) v.findViewById(R.id.assignment_item_layout);
             }
         }
 
@@ -256,28 +253,20 @@ public class AssignmentFragment extends Fragment {
                     }
             );
 
-
-            holder.mAssignmentLong.setHtml(assignment.getAssignmentLong());
-            holder.mAssignmentLayout.setOnClickListener(
+            holder.mAssignmentType.setText(assignment.getAssignmentType());
+            holder.mAssignmentShort.setHtml(assignment.getAssignmentShort());
+            holder.mAssignmentShort.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            switch (holder.mAssignmentLong.getVisibility()) {
-                                case View.VISIBLE:
-                                    holder.mAssignmentLong.setVisibility(View.GONE);
-                                    break;
-                                case View.GONE:
-                                    if (!holder.mAssignmentLong.getText().toString().isEmpty()) {
-                                        holder.mAssignmentLong.setVisibility(View.VISIBLE);
-                                    }
-                                    break;
-                            }
+                            Intent intent = new Intent(getActivity(), AssignmentActivity.class);
+                            intent.putExtra(AssignmentActivity.ASSIGNMENT_ID,
+                                    assignment.getAssignmentID());
+                            startActivity(intent);
                         }
                     }
             );
 
-            holder.mAssignmentType.setText(assignment.getAssignmentType());
-            holder.mAssignmentShort.setHtml(assignment.getAssignmentShort());
         }
 
         @Override
