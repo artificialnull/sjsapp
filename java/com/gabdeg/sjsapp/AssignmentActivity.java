@@ -22,13 +22,10 @@ public class AssignmentActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Loading...");
 
         Intent intent = getIntent();
         assignmentID = intent.getIntExtra(ASSIGNMENT_ID, 0);
-
-        Toast.makeText(this, String.valueOf(assignmentID), Toast.LENGTH_SHORT).show();
-
-
 
     }
 }

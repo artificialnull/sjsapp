@@ -243,6 +243,51 @@ public class Browser {
         }
     }
 
+    public FullAssignment getFullAssignment(int assignmentID) {
+        FullAssignment assignment = new FullAssignment();
+
+        try {
+            assignment.setAssignmentID(assignmentID);
+
+            JSONObject assignmentJSON = new JSONObject(getAsString(
+                    "https://sjs.myschoolapp.com/api/assignment2/read/"
+                            + String.valueOf(assignmentID) + "/?format=json"
+            ));
+
+            assignment
+                    .setAssignmentShort(assignmentJSON.getString("ShortDescription"))
+                    .setAssignmentLong(assignmentJSON.getString("LongDescription"));
+
+            ArrayList<FullAssignment.Download> downloads = new ArrayList<>();
+            for (int i = 0; i < assignmentJSON.getJSONArray("DownloadItems").length(); i++) {
+                JSONObject downloadJSON = assignmentJSON.getJSONArray("DownloadItems")
+                        .getJSONObject(i);
+                downloads.add(
+                        new FullAssignment.Download()
+                                .setName(downloadJSON.getString("ShortDescription"))
+                                .setUrl("https://sjs.myschoolapp.com"
+                                        + downloadJSON.getString("DownloadUrl"))
+                );
+            }
+            assignment.setDownloads(downloads);
+            ArrayList<FullAssignment.Link> links = new ArrayList<>();
+            for (int i = 0; i < assignmentJSON.getJSONArray("LinkItems").length(); i++) {
+                JSONObject linkJSON = assignmentJSON.getJSONArray("LinkItems").getJSONObject(i);
+                links.add(
+                        new FullAssignment.Link()
+                                .setName(linkJSON.getString("ShortDescription"))
+                                .setUrl(linkJSON.getString("Url"))
+                );
+            }
+            assignment.setLinks(links);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return assignment;
+
+    }
+
     public void updateAssignmentStatus(Assignment assignment) {
         try {
             JSONObject toPost = new JSONObject();
@@ -273,6 +318,77 @@ public class Browser {
             e.printStackTrace();
             return "null";
         }
+    }
+
+    public static class FullAssignment extends Assignment {
+
+        public static class Download {
+            public String getName() {
+                return name;
+            }
+
+            public Download setName(String name) {
+                this.name = name;
+                return this;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public Download setUrl(String url) {
+                this.url = url;
+                return this;
+            }
+
+            String name;
+            String url;
+        }
+
+        public static class Link {
+            public String getName() {
+                return name;
+            }
+
+            public Link setName(String name) {
+                this.name = name;
+                return this;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public Link setUrl(String url) {
+                this.url = url;
+                return this;
+            }
+
+            String name;
+            String url;
+        }
+
+        public ArrayList<Download> getDownloads() {
+            return downloads;
+        }
+
+        public FullAssignment setDownloads(ArrayList<Download> downloads) {
+            this.downloads = downloads;
+            return this;
+        }
+
+        public ArrayList<Link> getLinks() {
+            return links;
+        }
+
+        public FullAssignment setLinks(ArrayList<Link> links) {
+            this.links = links;
+            return this;
+        }
+
+        ArrayList<Download> downloads;
+        ArrayList<Link> links;
+
     }
 
     public static class Assignment {
