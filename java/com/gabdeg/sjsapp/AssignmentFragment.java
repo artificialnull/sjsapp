@@ -260,8 +260,7 @@ public class AssignmentFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getActivity(), AssignmentActivity.class);
-                            intent.putExtra(AssignmentActivity.ASSIGNMENT_ID,
-                                    assignment.getAssignmentID());
+                            intent.putExtra(AssignmentActivity.ASSIGNMENT_ID, assignment);
                             startActivity(intent);
                         }
                     }
