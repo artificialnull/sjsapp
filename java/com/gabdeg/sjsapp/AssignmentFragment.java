@@ -74,27 +74,17 @@ public class AssignmentFragment extends Fragment {
 
     public class DueComparator implements Comparator<Browser.Assignment> {
         public int compare(Browser.Assignment o1, Browser.Assignment o2) {
-            SimpleDateFormat stringToDate = new SimpleDateFormat("M/d/yyyy");
-            try {
-                Date o1Date = stringToDate.parse(o1.getAssignmentDue());
-                Date o2Date = stringToDate.parse(o2.getAssignmentDue());
-                return o1Date.compareTo(o2Date);
-            } catch (ParseException err) {
-                return 0;
-            }
+            Date o1Date = o1.getAssignmentDue();
+            Date o2Date = o2.getAssignmentDue();
+            return o1Date.compareTo(o2Date);
         }
     }
 
     public class AssignedComparator implements Comparator<Browser.Assignment> {
         public int compare(Browser.Assignment o1, Browser.Assignment o2) {
-            SimpleDateFormat stringToDate = new SimpleDateFormat("M/d/yyyy");
-            try {
-                Date o1Date = stringToDate.parse(o1.getAssignmentAssigned());
-                Date o2Date = stringToDate.parse(o2.getAssignmentAssigned());
-                return o1Date.compareTo(o2Date);
-            } catch (ParseException err) {
-                return 0;
-            }
+            Date o1Date = o1.getAssignmentAssigned();
+            Date o2Date = o2.getAssignmentAssigned();
+            return o1Date.compareTo(o2Date);
         }
     }
 
@@ -208,16 +198,23 @@ public class AssignmentFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            final String[] choices = {"To Do", "In Progress", "Completed"};
+            final String[] choices = {"To Do", "In Progress", "Completed", "Overdue",
+                    "Unknown", "Graded"};
             final int[] colorChoices = {
                     R.color.toDoColor,
                     R.color.inProgressColor,
-                    R.color.completedColor
+                    R.color.completedColor,
+                    R.color.overdueColor,
+                    R.color.unknownColor,
+                    R.color.gradedColor
             };
             final Browser.Assignment assignment = assignments.get(position);
             holder.mAssignmentClass.setText(assignment.getAssignmentClass());
-            holder.mAssignmentAssigned.setText(assignment.getAssignmentAssigned().split(" ")[0]);
-            holder.mAssignmentDue.setText(assignment.getAssignmentDue().split(" ")[0]);
+
+            SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            holder.mAssignmentAssigned.setText(toFormat.format(assignment.getAssignmentAssigned()));
+            holder.mAssignmentDue.setText(toFormat.format((assignment.getAssignmentDue())));
 
             holder.mAssignmentStatus.setText(assignment.getAssignmentStatus());
             holder.mAssignmentStatus.setTextColor(
@@ -226,32 +223,34 @@ public class AssignmentFragment extends Fragment {
                                     .indexOf(holder.mAssignmentStatus.getText())
                             ])
             );
-            holder.mAssignmentStatus.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            holder.mAssignmentStatus.setText(
-                                    choices[
-                                        (
-                                                Arrays.asList(choices).indexOf(
-                                                        holder.mAssignmentStatus.getText()
-                                                ) + 1
-                                        ) % 3
-                                    ]
-                            );
-                            holder.mAssignmentStatus.setTextColor(
-                                    getResources().getColor(colorChoices[
-                                            Arrays.asList(choices)
-                                                    .indexOf(holder.mAssignmentStatus.getText())
-                                    ])
-                            );
-                            assignment.setAssignmentStatus(
-                                    holder.mAssignmentStatus.getText().toString()
-                            );
-                            new UpdateAssignmentStatusTask().execute(assignment);
+            if (!assignment.getAssignmentStatus().equals("Graded")) {
+                holder.mAssignmentStatus.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                holder.mAssignmentStatus.setText(
+                                        choices[
+                                                (
+                                                        Arrays.asList(choices).indexOf(
+                                                                holder.mAssignmentStatus.getText()
+                                                        ) + 1
+                                                ) % 3
+                                                ]
+                                );
+                                holder.mAssignmentStatus.setTextColor(
+                                        getResources().getColor(colorChoices[
+                                                Arrays.asList(choices)
+                                                        .indexOf(holder.mAssignmentStatus.getText())
+                                                ])
+                                );
+                                assignment.setAssignmentStatus(
+                                        holder.mAssignmentStatus.getText().toString()
+                                );
+                                new UpdateAssignmentStatusTask().execute(assignment);
+                            }
                         }
-                    }
-            );
+                );
+            }
 
             holder.mAssignmentType.setText(assignment.getAssignmentType());
             holder.mAssignmentShort.setHtml(assignment.getAssignmentShort());

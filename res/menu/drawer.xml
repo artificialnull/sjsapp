@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_schedule"
+            android:icon="@drawable/schedule"
+            android:title="@string/drawer_schedule"
+            />
+        <item
+            android:id="@+id/drawer_assignments"
+            android:icon="@drawable/assignments"
+            android:title="@string/drawer_assignments"
+            />
+    </group>
+</menu>

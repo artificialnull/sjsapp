@@ -31,8 +31,7 @@ public class LoginDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_login_dialog, null);
         if (invalid) {
-            view.findViewById(R.id.header_text).setBackgroundColor(
-                    getResources().getColor(android.R.color.holo_red_dark));
+            ((TextView) view.findViewById(R.id.header_text)).setText("Try Again");
         }
         builder.setView(view)
                 .setPositiveButton("SIGN IN", new DialogInterface.OnClickListener() {

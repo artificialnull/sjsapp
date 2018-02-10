@@ -18,6 +18,7 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.HttpCookie;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -359,21 +360,33 @@ public class Browser {
             return this;
         }
 
-        public String getAssignmentAssigned() {
+        public Date getAssignmentAssigned() {
             return assignmentAssigned;
         }
 
         public Assignment setAssignmentAssigned(String assignmentAssigned) {
-            this.assignmentAssigned = assignmentAssigned;
+            try {
+                this.assignmentAssigned = new SimpleDateFormat("M/d/yyyy hh:mm aa")
+                        .parse(assignmentAssigned);
+            } catch (ParseException e) {
+                this.assignmentAssigned = null;
+                e.printStackTrace();
+            }
             return this;
         }
 
-        public String getAssignmentDue() {
+        public Date getAssignmentDue() {
             return assignmentDue;
         }
 
         public Assignment setAssignmentDue(String assignmentDue) {
-            this.assignmentDue = assignmentDue;
+            try {
+                this.assignmentDue = new SimpleDateFormat("M/d/yyyy hh:mm aa")
+                        .parse(assignmentDue);
+            } catch (ParseException e) {
+                this.assignmentDue = null;
+                e.printStackTrace();
+            }
             return this;
         }
 
@@ -397,6 +410,12 @@ public class Browser {
                 case 1:
                     this.assignmentStatus = "Completed";
                     return this;
+                case 2:
+                    this.assignmentStatus = "Overdue";
+                    return this;
+                case 4:
+                    this.assignmentStatus = "Graded";
+                    return this;
                 default:
                     this.assignmentStatus = "Unknown";
                     return this;
@@ -408,8 +427,8 @@ public class Browser {
         String assignmentShort;
         String assignmentLong;
         String assignmentType;
-        String assignmentAssigned;
-        String assignmentDue;
+        Date assignmentAssigned;
+        Date assignmentDue;
 
         public int getAssignmentIndexID() {
             return assignmentIndexID;
@@ -512,21 +531,31 @@ public class Browser {
             return this;
         }
 
-        public String getClassStart() {
+        public Date getClassStart() {
             return classStart;
         }
 
         public ScheduledClass setClassStart(String classStart) {
-            this.classStart = classStart;
+            try {
+                this.classStart = new SimpleDateFormat("hh:mm aa").parse(classStart);
+            } catch (ParseException e) {
+                this.classStart = null;
+                e.printStackTrace();
+            }
             return this;
         }
 
-        public String getClassEnd() {
+        public Date getClassEnd() {
             return classEnd;
         }
 
         public ScheduledClass setClassEnd(String classEnd) {
-            this.classEnd = classEnd;
+            try {
+                this.classEnd = new SimpleDateFormat("hh:mm aa").parse(classEnd);
+            } catch (ParseException e) {
+                this.classStart = null;
+                e.printStackTrace();
+            }
             return this;
         }
 
@@ -558,8 +587,8 @@ public class Browser {
         }
 
         String className;
-        String classStart;
-        String classEnd;
+        Date classStart;
+        Date classEnd;
         String classRoom;
         String classTeacher;
         String classBlock;

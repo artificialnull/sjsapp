@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,9 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 /**
  * Created by ishan on 8/21/17.
@@ -25,7 +24,7 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private ListView mDrawerList;
+    private NavigationView mNavigationView;
 
     private MenuItem scheduleLeftArrow;
     private MenuItem scheduleRightArrow;
@@ -63,26 +62,18 @@ public class MainActivity extends AppCompatActivity {
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(
-                new ArrayAdapter<String>(this, R.layout.drawer_list_item,
-                        getResources().getStringArray(R.array.drawer_items))
-        );
+        mNavigationView = (NavigationView) findViewById(R.id.drawer_navigation);
 
-
-        mDrawerList.addHeaderView(getLayoutInflater()
-                .inflate(R.layout.drawer_header, mDrawerList, false), null, false);
-
-        mDrawerList.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
+        mNavigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mDrawerList.setItemChecked(position, true);
-                        mDrawerLayout.closeDrawer(mDrawerList);
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        item.setChecked(true);
+
                         FragmentTransaction fragmentTransaction =
                                 getSupportFragmentManager().beginTransaction();
 
-                        switch (getResources().getStringArray(R.array.drawer_items)[position - 1]) {
+                        switch (item.getTitle().toString()) {
                             case "Schedule":
                                 Log.v("SCHEDULE", "Opening...");
 
@@ -111,12 +102,13 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                         }
 
+                        mDrawerLayout.closeDrawer(mNavigationView);
+                        return true;
                     }
-
                 }
         );
 
-        mDrawerList.setItemChecked(1, true);
+        mNavigationView.setCheckedItem(R.id.drawer_schedule);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

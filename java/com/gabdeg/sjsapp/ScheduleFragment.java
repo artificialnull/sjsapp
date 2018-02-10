@@ -147,36 +147,31 @@ public class ScheduleFragment extends Fragment {
             Browser.ScheduledClass scheduledClass = scheduledClasses.get(position);
             holder.mClassName.setText(scheduledClass.getClassName());
 
-            SimpleDateFormat fromFormat = new SimpleDateFormat("hh:mm aa");
             SimpleDateFormat toFormat = new SimpleDateFormat("HH:mm");
-            try {
-                holder.mClassStart.setText(
-                        toFormat.format(fromFormat.parse(scheduledClass.getClassStart()))
-                );
-                holder.mClassEnd.setText(
-                        toFormat.format(fromFormat.parse(scheduledClass.getClassEnd()))
-                );
+            holder.mClassStart.setText(
+                    toFormat.format(scheduledClass.getClassStart())
+            );
+            holder.mClassEnd.setText(
+                    toFormat.format(scheduledClass.getClassEnd())
+            );
 
-                Calendar today = Calendar.getInstance();
-                Calendar calStart = Calendar.getInstance();
-                calStart.setTime(fromFormat.parse(scheduledClass.getClassStart()));
-                calStart.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
-                Calendar calEnd = Calendar.getInstance();
-                calEnd.setTime(fromFormat.parse(scheduledClass.getClassEnd()));
-                calEnd.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
+            Calendar today = Calendar.getInstance();
+            Calendar calStart = Calendar.getInstance();
+            calStart.setTime(scheduledClass.getClassStart());
+            calStart.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
+            Calendar calEnd = Calendar.getInstance();
+            calEnd.setTime(scheduledClass.getClassEnd());
+            calEnd.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
 
 
-                if (today.getTime().after(calEnd.getTime())) {
-                    holder.mClassHighlight.setBackgroundResource(R.color.completedColor);
-                } else if (today.getTime().before(calStart.getTime())) {
-                    holder.mClassHighlight.setBackgroundResource(R.color.toDoColor);
-                } else {
-                    holder.mClassHighlight.setBackgroundResource(R.color.inProgressColor);
-                }
-
-            } catch (ParseException err) {
-                err.printStackTrace();
+            if (today.getTime().after(calEnd.getTime())) {
+                holder.mClassHighlight.setBackgroundResource(R.color.completedColor);
+            } else if (today.getTime().before(calStart.getTime())) {
+                holder.mClassHighlight.setBackgroundResource(R.color.toDoColor);
+            } else {
+                holder.mClassHighlight.setBackgroundResource(R.color.inProgressColor);
             }
+
 
             holder.mClassBlock.setText(scheduledClass.getClassBlock());
             holder.mClassRoom.setText(scheduledClass.getClassRoom());

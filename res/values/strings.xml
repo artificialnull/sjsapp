@@ -33,8 +33,6 @@
         ]]>
     </string>
 
-    <string-array name="drawer_items">
-        <item>Schedule</item>
-        <item>Assignments</item>
-    </string-array>
+    <string name="drawer_schedule">Schedule</string>
+    <string name="drawer_assignments">Assignments</string>
 </resources>
