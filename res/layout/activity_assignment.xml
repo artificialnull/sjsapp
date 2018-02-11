@@ -85,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/assignment_status"
                 android:layout_below="@id/assignment_due_label"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/app_name" />
 
             <org.sufficientlysecure.htmltextview.HtmlTextView

@@ -1,6 +1,9 @@
 package com.gabdeg.sjsapp;
 
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -310,6 +313,26 @@ public class Browser {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void downloadFile(Context context, Assignment.Download download) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(
+                download.getUrl()
+        ));
+        request.setTitle(download.getName());
+        request.setDescription("Downloading...");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(
+                context, null, download.getUrl().trim().split("/")
+                        [download.getUrl().trim().split("/").length - 1]
+        );
+
+        request.addRequestHeader("Cookie", TextUtils.join(";", cookieManager.getCookieStore().getCookies()));
+
+        Log.v("DOWNLOADING", download.getUrl());
+
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(request);
     }
 
     //for testing only

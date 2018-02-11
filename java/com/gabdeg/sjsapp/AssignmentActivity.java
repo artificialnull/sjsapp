@@ -1,5 +1,7 @@
 package com.gabdeg.sjsapp;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -202,15 +204,16 @@ public class AssignmentActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
-            holder.mDownloadTitle.setText(assignment.getDownloads().get(position).getName());
-            holder.mDownloadButton.setText("open");
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            final Browser.Assignment.Download download = assignment.getDownloads().get(position);
+
+            holder.mDownloadTitle.setText(download.getName());
+            holder.mDownloadButton.setText("download");
             holder.mDownloadButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                            assignment.getDownloads().get(position).getUrl()
-                    )));
+                    Browser browser = new Browser();
+                    browser.downloadFile(AssignmentActivity.this, download);
                 }
             });
         }
