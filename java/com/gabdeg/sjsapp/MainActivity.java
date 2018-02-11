@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        item.setChecked(true);
-
                         FragmentTransaction fragmentTransaction =
                                 getSupportFragmentManager().beginTransaction();
 
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 fragmentTransaction.replace(R.id.content_frame,
                                         new ScheduleFragment());
-                                fragmentTransaction.commit();
+                                fragmentTransaction.addToBackStack(null).commit();
 
                                 scheduleLeftArrow.setVisible(true);
                                 scheduleRightArrow.setVisible(true);
@@ -91,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 fragmentTransaction.replace(R.id.content_frame,
                                         new AssignmentFragment());
-                                fragmentTransaction.commit();
+                                fragmentTransaction.addToBackStack(null).commit();
 
                                 scheduleLeftArrow.setVisible(false);
                                 scheduleRightArrow.setVisible(false);
@@ -107,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-
-        mNavigationView.setCheckedItem(R.id.drawer_schedule);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -169,8 +165,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+        super.onConfigurationChanged(newConfig);
+    }
+
+    public void setNavigationChecked(int resourceID) {
+        Log.v("SET_CHECKED", String.valueOf(resourceID));
+        mNavigationView.setCheckedItem(resourceID);
     }
 
     public void showLoginDialog(boolean showAsInvalid) {

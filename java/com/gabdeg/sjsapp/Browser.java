@@ -53,7 +53,7 @@ public class Browser {
             );
             Log.v("GET", "There exist >0 cookies");
             for (HttpCookie cookie : cookieManager.getCookieStore().getCookies()) {
-                Log.v("GET", "Cookie: " + cookie);
+                //Log.v("GET", "Cookie: " + cookie);
             }
         }
 
@@ -63,7 +63,7 @@ public class Browser {
         if (cookieHeader != null) {
             for (String cookie : cookieHeader) {
                 cookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
-                Log.v("GET", "Cookie recv: " + cookie);
+                //Log.v("GET", "Cookie recv: " + cookie);
             }
         }
 
@@ -102,7 +102,7 @@ public class Browser {
         if (cookieHeader != null) {
             for (String cookie : cookieHeader) {
                 cookieManager.getCookieStore().add(null, HttpCookie.parse(cookie).get(0));
-                Log.v("POST", "Cookie: " + cookie);
+                //Log.v("POST", "Cookie: " + cookie);
             }
         }
 
