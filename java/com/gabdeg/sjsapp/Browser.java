@@ -296,7 +296,7 @@ public class Browser {
     public void updateAssignmentStatus(Assignment assignment) {
         try {
             JSONObject toPost = new JSONObject();
-            toPost.put("assignmentIndexId", assignment.assignmentIndexID);
+            toPost.put("assignmentIndexId", assignment.getAssignmentIndexID());
             String[] choices = {"To Do", "In Progress", "Completed"};
             toPost.put("assignmentStatus", String.valueOf(
                     Arrays.asList(choices).indexOf(assignment.getAssignmentStatus()) - 1
