@@ -335,6 +335,28 @@ public class Browser {
         downloadManager.enqueue(request);
     }
 
+    public User getUserData() {
+        User user = new User();
+        try {
+            JSONObject userJSON = new JSONObject(
+                    getAsString("https://sjs.myschoolapp.com/api/webapp/context")
+            ).getJSONObject("UserInfo");
+            user
+                    .setUserID(userJSON.getString("UserId"))
+                    .setUserFirstName(userJSON.getString("FirstName"))
+                    .setUserLastName(userJSON.getString("LastName"))
+                    .setUserEmail(userJSON.getString("Email"))
+                    .setUserUserName(userJSON.getString("UserName"))
+                    .setUserMiddleName(userJSON.getString("MiddleName"))
+                    .setUserStudentID(userJSON.getString("StudentId"))
+                    .setUserLockerNumber(userJSON.getString("LockerNbr"))
+                    .setUserLockerCombo(userJSON.getString("LockerCombo"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     //for testing only
     public String getAssignmentJSONString(int indent) {
         try {
@@ -616,6 +638,100 @@ public class Browser {
         String classTeacher;
         String classBlock;
 
+    }
+
+    public static class User {
+
+        public String getUserID() {
+            return userID;
+        }
+
+        public User setUserID(String userID) {
+            this.userID = userID;
+            return this;
+        }
+
+        public String getUserFirstName() {
+            return userFirstName;
+        }
+
+        public User setUserFirstName(String userFirstName) {
+            this.userFirstName = userFirstName;
+            return this;
+        }
+
+        public String getUserLastName() {
+            return userLastName;
+        }
+
+        public User setUserLastName(String userLastName) {
+            this.userLastName = userLastName;
+            return this;
+        }
+
+        public String getUserEmail() {
+            return userEmail;
+        }
+
+        public User setUserEmail(String userEmail) {
+            this.userEmail = userEmail;
+            return this;
+        }
+
+        public String getUserUserName() {
+            return userUserName;
+        }
+
+        public User setUserUserName(String userUserName) {
+            this.userUserName = userUserName;
+            return this;
+        }
+
+        public String getUserMiddleName() {
+            return userMiddleName;
+        }
+
+        public User setUserMiddleName(String userMiddleName) {
+            this.userMiddleName = userMiddleName;
+            return this;
+        }
+
+        public String getUserStudentID() {
+            return userStudentID;
+        }
+
+        public User setUserStudentID(String userStudentID) {
+            this.userStudentID = userStudentID;
+            return this;
+        }
+
+        public String getUserLockerNumber() {
+            return userLockerNumber;
+        }
+
+        public User setUserLockerNumber(String userLockerNumber) {
+            this.userLockerNumber = userLockerNumber;
+            return this;
+        }
+
+        public String getUserLockerCombo() {
+            return userLockerCombo;
+        }
+
+        public User setUserLockerCombo(String userLockerCombo) {
+            this.userLockerCombo = userLockerCombo;
+            return this;
+        }
+
+        String userID;
+        String userFirstName;
+        String userLastName;
+        String userEmail;
+        String userUserName;
+        String userMiddleName;
+        String userStudentID;
+        String userLockerNumber;
+        String userLockerCombo;
     }
 
 }

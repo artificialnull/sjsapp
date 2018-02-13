@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Created by ishan on 8/21/17.
@@ -117,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
             ft.commit();
         }
 
+        new GetUserMetadataTask().execute();
+
     }
 
     @Override
@@ -215,6 +218,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private class GetUserMetadataTask extends AsyncTask<Void, Void, Browser.User> {
+        protected Browser.User doInBackground(Void... voids) {
+            Browser browser = new Browser();
+            browser.validateLogIn(
+                    PreferenceManager.getDefaultSharedPreferences(MainActivity.this)
+                            .getString("username", "username"),
+                    PreferenceManager.getDefaultSharedPreferences(MainActivity.this)
+                            .getString("password", "password")
+
+            );
+            return browser.getUserData();
+        }
+        protected void onPostExecute(Browser.User user) {
+            ((TextView) findViewById(R.id.drawer_header_name)).setText(user.getUserFirstName());
+            ((TextView) findViewById(R.id.drawer_header_email)).setText(user.getUserEmail());
+        }
     }
 
 }
