@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">SJSApp</string>
-    <string name="drawer_name">Pages</string>
+    <string name="app_name">Schedulo</string>
     <string name="drawer_open">OpenDrawer</string>
     <string name="drawer_close">CloseDrawer</string>
     <string name="arrow_left">Previous Day</string>
@@ -12,6 +11,8 @@
     <string name="class_sort">Class</string>
 
     <string name="drawer_greeting">Hey there,&#160;</string>
+    <string name="drawer_email_placeholder">Hope you enjoy this app!</string>
+    <string name="drawer_name_placeholder">user</string>
 
     <string name="html_test">
         <![CDATA[
