@@ -37,4 +37,7 @@
 
     <string name="drawer_schedule">Schedule</string>
     <string name="drawer_assignments">Assignments</string>
+    <string name="drawer_profile">Profile</string>
+    <string name="drawer_settings">Settings</string>
+
 </resources>

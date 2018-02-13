@@ -350,7 +350,10 @@ public class Browser {
                     .setUserMiddleName(userJSON.getString("MiddleName"))
                     .setUserStudentID(userJSON.getString("StudentId"))
                     .setUserLockerNumber(userJSON.getString("LockerNbr"))
-                    .setUserLockerCombo(userJSON.getString("LockerCombo"));
+                    .setUserLockerCombo(userJSON.getString("LockerCombo"))
+                    .setUserProfilePhotoURL(
+                            userJSON.getJSONObject("ProfilePhotoFile").getString("OpenHref")
+                    );
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -732,6 +735,17 @@ public class Browser {
         String userStudentID;
         String userLockerNumber;
         String userLockerCombo;
+
+        public String getUserProfilePhotoURL() {
+            return userProfilePhotoURL;
+        }
+
+        public User setUserProfilePhotoURL(String userProfilePhotoURL) {
+            this.userProfilePhotoURL = "https://sjs.myschoolapp.com" + userProfilePhotoURL;
+            return this;
+        }
+
+        String userProfilePhotoURL;
     }
 
 }

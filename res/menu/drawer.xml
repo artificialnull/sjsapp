@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
+        android:id="@+id/group_primary"
         android:checkableBehavior="single">
-
         <item
             android:id="@+id/drawer_schedule"
             android:icon="@drawable/schedule"
@@ -12,6 +12,21 @@
             android:id="@+id/drawer_assignments"
             android:icon="@drawable/assignments"
             android:title="@string/drawer_assignments"
+            />
+    </group>
+
+    <group
+        android:id="@+id/group_secondary"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_profile"
+            android:icon="@drawable/profile"
+            android:title="@string/drawer_profile"
+            />
+        <item
+            android:id="@+id/drawer_settings"
+            android:icon="@drawable/settings"
+            android:title="@string/drawer_settings"
             />
     </group>
 </menu>
