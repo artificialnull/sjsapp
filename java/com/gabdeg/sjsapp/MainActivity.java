@@ -97,6 +97,20 @@ public class MainActivity extends AppCompatActivity {
                                 assignmentSorting.setVisible(true);
 
                                 break;
+
+                            case "Profile":
+                                Log.v("PROFILE", "Opening...");
+
+                                fragmentTransaction.replace(R.id.content_frame,
+                                        new ProfileFragment());
+                                fragmentTransaction.addToBackStack(null).commit();
+
+                                scheduleLeftArrow.setVisible(false);
+                                scheduleRightArrow.setVisible(false);
+                                assignmentSorting.setVisible(false);
+
+                                break;
+
                             default:
                                 break;
                         }
