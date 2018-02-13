@@ -12,79 +12,86 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <org.sufficientlysecure.htmltextview.HtmlTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/assignment_short"
+                android:text="@string/assignment_short_placeholder"
                 android:paddingTop="16dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:textSize="18sp"
+                android:textSize="24sp"
+                android:textColor="?android:textColorPrimary"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/assignment_class_label"
-                android:padding="16dp"
-                android:text="Class"
-                android:textStyle="bold"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/assignment_short"/>
+                android:id="@+id/assignment_info_section"
+                android:layout_below="@+id/assignment_short"
+                android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/assignment_class_info"
-                android:padding="16dp"
-                android:text="Class"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/assignment_short"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/assignment_class_label"
+                    android:text="@string/assignment_class_placeholder"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp"
+                    android:layout_alignParentStart="true"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/assignment_assigned_label"
-                android:paddingStart="16dp"
-                android:text="Assigned"
-                android:textStyle="bold"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/assignment_class_label"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/assignment_class_info"
+                    android:text="@string/assignment_class_placeholder"
+                    android:layout_alignParentEnd="true"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/assignment_assigned_info"
-                android:paddingEnd="16dp"
-                android:text="Assigned"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/assignment_class_label"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/assignment_assigned_label"
+                    android:text="@string/assignment_assigned_placeholder"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/assignment_class_label"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/assignment_due_label"
-                android:padding="16dp"
-                android:text="Due"
-                android:textStyle="bold"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/assignment_assigned_label"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/assignment_assigned_info"
+                    android:text="@string/assignment_assigned_placeholder"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/assignment_class_label"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/assignment_due_info"
-                android:padding="16dp"
-                android:text="Due"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/assignment_assigned_label"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/assignment_due_label"
+                    android:text="@string/assignment_due_placeholder"
+                    android:textStyle="bold"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/assignment_assigned_label"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/assignment_due_info"
+                    android:text="@string/assignment_due_placeholder"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/assignment_assigned_label"/>
+
+            </RelativeLayout>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/assignment_status"
-                android:layout_below="@id/assignment_due_label"
+                android:layout_below="@id/assignment_info_section"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/app_name" />
