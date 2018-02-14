@@ -3,6 +3,8 @@ package com.gabdeg.sjsapp;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -358,6 +360,15 @@ public class Browser {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public Bitmap getUserProfilePhoto(User user) {
+        try {
+            return BitmapFactory.decodeStream(get(user.getUserProfilePhotoURL()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     //for testing only

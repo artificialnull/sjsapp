@@ -1,9 +1,11 @@
 package com.gabdeg.sjsapp;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,8 @@ public class ProfileFragment extends Fragment {
     TextView profileLockerCombo;
     ImageView profilePhoto;
 
+    SwipeRefreshLayout profileSwipeRefreshLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class ProfileFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Profile");
 
+        profileSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.profile_swipe_refresh_layout);
         profileFullName = (TextView) view.findViewById(R.id.profile_photo_title);
         profileEmail = (TextView) view.findViewById(R.id.profile_photo_caption);
         profileStudentID = (TextView) view.findViewById(R.id.profile_personal_id_info);
@@ -48,6 +53,10 @@ public class ProfileFragment extends Fragment {
     }
 
     private class GetUserMetadataTask extends AsyncTask<Void, Void, Browser.User> {
+        protected void onPreExecute() {
+            profileSwipeRefreshLayout.setRefreshing(true);
+        }
+
         protected Browser.User doInBackground(Void... voids) {
             Browser browser = new Browser();
             browser.validateLogIn(
@@ -72,6 +81,29 @@ public class ProfileFragment extends Fragment {
             profileStudentID.setText(user.getUserStudentID());
             profileLockerNumber.setText(user.getUserLockerNumber());
             profileLockerCombo.setText(user.getUserLockerCombo());
+
+            new GetUserPhotoTask().execute(user);
+        }
+    }
+
+    private class GetUserPhotoTask extends AsyncTask<Browser.User, Void, Bitmap> {
+        protected Bitmap doInBackground(Browser.User... users) {
+            Browser.User user = users[0];
+
+            Browser browser = new Browser();
+            browser.validateLogIn(
+                    PreferenceManager.getDefaultSharedPreferences(getActivity())
+                            .getString("username", "username"),
+                    PreferenceManager.getDefaultSharedPreferences(getActivity())
+                            .getString("password", "password")
+
+            );
+            return browser.getUserProfilePhoto(user);
+
+        }
+        protected void onPostExecute(Bitmap profileBitmap) {
+            profilePhoto.setImageBitmap(profileBitmap);
+            profileSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
