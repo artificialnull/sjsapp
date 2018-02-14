@@ -54,6 +54,7 @@ public class ProfileFragment extends Fragment {
 
     private class GetUserMetadataTask extends AsyncTask<Void, Void, Browser.User> {
         protected void onPreExecute() {
+            profileSwipeRefreshLayout.setEnabled(true);
             profileSwipeRefreshLayout.setRefreshing(true);
         }
 
@@ -104,6 +105,7 @@ public class ProfileFragment extends Fragment {
         protected void onPostExecute(Bitmap profileBitmap) {
             profilePhoto.setImageBitmap(profileBitmap);
             profileSwipeRefreshLayout.setRefreshing(false);
+            profileSwipeRefreshLayout.setEnabled(false);
         }
     }
 
