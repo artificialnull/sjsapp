@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,18 +11,15 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -214,7 +210,10 @@ public class AssignmentFragment extends Fragment {
             final Browser.Assignment assignment = assignments.get(position);
             holder.mAssignmentClass.setText(assignment.getAssignmentClass());
 
-            SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat toFormat = new SimpleDateFormat(
+                    PreferenceManager.getDefaultSharedPreferences(getContext())
+                    .getString("date_format", "yyyy-MM-dd")
+            );
 
             holder.mAssignmentAssigned.setText(toFormat.format(assignment.getAssignmentAssigned()));
             holder.mAssignmentDue.setText(toFormat.format((assignment.getAssignmentDue())));

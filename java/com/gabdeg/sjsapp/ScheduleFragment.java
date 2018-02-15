@@ -9,13 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -150,7 +148,10 @@ public class ScheduleFragment extends Fragment {
             Browser.ScheduledClass scheduledClass = scheduledClasses.get(position);
             holder.mClassName.setText(scheduledClass.getClassName());
 
-            SimpleDateFormat toFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat toFormat = new SimpleDateFormat(
+                    PreferenceManager.getDefaultSharedPreferences(mContext)
+                            .getString("time_format", "HH:mm")
+            );
             holder.mClassStart.setText(
                     toFormat.format(scheduledClass.getClassStart())
             );

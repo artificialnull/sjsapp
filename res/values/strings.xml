@@ -50,4 +50,11 @@
     <string name="profile_personal_locker_placeholder">Locker Number</string>
     <string name="profile_personal_combo_placeholder">Locker Combination</string>
 
+    <string name="settings_date_time_header">Date/Time Format</string>
+    <string name="settings_date_title">Date format</string>
+    <string name="settings_time_title">Time format</string>
+
+    <string name="default_time_format">HH:mm</string>
+    <string name="default_date_format">yyyy-MM-dd</string>
+
 </resources>

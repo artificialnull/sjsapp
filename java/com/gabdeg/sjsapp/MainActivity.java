@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -104,6 +105,20 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentTransaction.replace(R.id.content_frame,
                                         new ProfileFragment());
                                 fragmentTransaction.addToBackStack(null).commit();
+
+                                scheduleLeftArrow.setVisible(false);
+                                scheduleRightArrow.setVisible(false);
+                                assignmentSorting.setVisible(false);
+
+                                break;
+
+                            case "Settings":
+                                Log.v("SETTINGS", "Opening...");
+
+                                fragmentTransaction
+                                        .replace(R.id.content_frame, new SettingsFragment())
+                                        .addToBackStack(null)
+                                        .commit();
 
                                 scheduleLeftArrow.setVisible(false);
                                 scheduleRightArrow.setVisible(false);

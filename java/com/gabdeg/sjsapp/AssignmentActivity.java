@@ -1,7 +1,5 @@
 package com.gabdeg.sjsapp;
 
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
