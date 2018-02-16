@@ -145,9 +145,8 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, new ScheduleFragment());
             ft.commit();
+            new GetUserMetadataTask().execute();
         }
-
-        new GetUserMetadataTask().execute();
 
     }
 
@@ -224,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, new ScheduleFragment());
         ft.commit();
+        new GetUserMetadataTask().execute();
+
     }
 
     public void onCredentialsGotten(String username, String password) {

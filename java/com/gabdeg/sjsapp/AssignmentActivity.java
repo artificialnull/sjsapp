@@ -131,7 +131,13 @@ public class AssignmentActivity extends AppCompatActivity {
             ((HtmlTextView) findViewById(R.id.assignment_short))
                     .setHtml(assignment.getAssignmentShort());
 
-            SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat toFormat = new SimpleDateFormat(
+                    PreferenceManager.getDefaultSharedPreferences(AssignmentActivity.this)
+                            .getString("date_format", "yyyy-MM-dd")
+                    + " " +
+                    PreferenceManager.getDefaultSharedPreferences(AssignmentActivity.this)
+                            .getString("time_format", "HH:mm")
+            );
 
             ((TextView) findViewById(R.id.assignment_class_info))
                     .setText(assignment.getAssignmentClass());

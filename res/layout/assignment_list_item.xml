@@ -55,8 +55,9 @@
         android:id="@+id/assignment_item_assign"
         app:layout_constraintLeft_toLeftOf="@id/left_spacer"
         app:layout_constraintRight_toRightOf="@+id/name_time_sep"
-        android:gravity="start"
-        android:paddingBottom="4dp" />
+        android:gravity="end"
+        android:paddingBottom="4dp"
+        android:paddingEnd="4dp"/>
 
     <TextView
         android:layout_width="0dp"
@@ -66,15 +67,16 @@
         app:layout_constraintLeft_toLeftOf="@id/left_spacer"
         app:layout_constraintRight_toRightOf="@id/name_time_sep"
         app:layout_constraintTop_toBottomOf="@+id/assignment_item_class"
-        android:gravity="start"
+        android:gravity="end"
         android:paddingTop="4dp"
-        android:paddingBottom="8dp"/>
+        android:paddingBottom="8dp"
+        android:paddingEnd="4dp"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Quiz"
-        android:gravity="right"
+        android:gravity="end"
         android:id="@+id/assignment_item_type"
         app:layout_constraintRight_toRightOf="@id/right_spacer"
         app:layout_constraintLeft_toLeftOf="@+id/name_info_sep"
@@ -85,7 +87,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="In Progress"
-        android:gravity="right"
+        android:gravity="end"
         android:id="@+id/assignment_item_status"
         app:layout_constraintRight_toRightOf="@id/right_spacer"
         app:layout_constraintLeft_toLeftOf="@+id/name_info_sep"

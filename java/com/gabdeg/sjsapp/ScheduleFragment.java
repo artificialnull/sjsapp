@@ -109,6 +109,7 @@ public class ScheduleFragment extends Fragment {
         protected void onPostExecute(Void underscore) {
             mRecyclerView.setAdapter(new ScheduleAdapter());
             mSwipeRefreshLayout.setRefreshing(false);
+
         }
     }
 
