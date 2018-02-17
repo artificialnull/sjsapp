@@ -53,10 +53,11 @@ public class AssignmentFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_assignments, container, false);
 
-        ((MainActivity) getActivity()).setNavigationChecked(R.id.drawer_assignments);
-        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_left, false);
-        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_right, false);
-        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_sort, true);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.setNavigationChecked(R.id.drawer_assignments);
+        mainActivity.setMenuButtonVisibility(R.id.action_left, false);
+        mainActivity.setMenuButtonVisibility(R.id.action_right, false);
+        mainActivity.setMenuButtonVisibility(R.id.action_sort, true);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.assignment_swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(
@@ -68,7 +69,7 @@ public class AssignmentFragment extends Fragment {
                 }
         );
         mRecyclerView = (RecyclerView) view.findViewById(R.id.assignment_list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL));
 
@@ -106,7 +107,7 @@ public class AssignmentFragment extends Fragment {
         Log.v("MIN_DAte_WIDTH", String.valueOf(minDateWidth));
 
         new GetAssignmentsTask().execute();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Assignments");
+        mainActivity.getSupportActionBar().setTitle("Assignments");
 
         return view;
 

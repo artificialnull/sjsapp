@@ -33,14 +33,14 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        MainActivity mainActivity = (MainActivity) getActivity();
 
-        ((MainActivity) getActivity()).setNavigationChecked(R.id.drawer_profile);
+        mainActivity.setNavigationChecked(R.id.drawer_profile);
+        mainActivity.getSupportActionBar().setTitle("Profile");
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Profile");
-
-        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_left, false);
-        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_right, false);
-        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_sort, false);
+        mainActivity.setMenuButtonVisibility(R.id.action_left, false);
+        mainActivity.setMenuButtonVisibility(R.id.action_right, false);
+        mainActivity.setMenuButtonVisibility(R.id.action_sort, false);
 
         profileSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.profile_swipe_refresh_layout);
         profileFullName = (TextView) view.findViewById(R.id.profile_photo_title);

@@ -60,7 +60,7 @@ public class ScheduleFragment extends Fragment {
                 }
         );
         mRecyclerView = (RecyclerView) view.findViewById(R.id.schedule_list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL));
 
@@ -117,7 +117,7 @@ public class ScheduleFragment extends Fragment {
 
         protected void onPreExecute() {
             mSwipeRefreshLayout.setRefreshing(true);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(
+            mContext.getSupportActionBar().setTitle(
                     new SimpleDateFormat("E - MMM d, yyyy").format(calendar.getTime())
             );
         }

@@ -27,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
 
-    private static Menu actionMenu;
+    private MenuItem actionLeft;
+    private MenuItem actionRight;
+    private MenuItem actionSort;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,14 +137,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actions, menu);
-        actionMenu = menu;
+        actionLeft = menu.findItem(R.id.action_left);
+        actionRight = menu.findItem(R.id.action_right);
+        actionSort = menu.findItem(R.id.action_sort);
         Log.v("OPTIONS", "Menu created!");
         return true;
     }
 
     public void setMenuButtonVisibility(int id, boolean isVisible) {
-        if (actionMenu != null) {
-            actionMenu.findItem(id).setVisible(isVisible);
+        if (actionLeft != null && actionRight != null && actionSort != null) {
+            switch (id) {
+                case R.id.action_left:
+                    actionLeft.setVisible(isVisible);
+                    break;
+                case R.id.action_right:
+                    actionRight.setVisible(isVisible);
+                    break;
+                case R.id.action_sort:
+                    actionSort.setVisible(isVisible);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
