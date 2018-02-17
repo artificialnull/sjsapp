@@ -158,7 +158,7 @@ public class Browser {
             toPost.put("Password", password);
             postJSON("https://sjs.myschoolapp.com/api/SignIn", toPost);
 
-        } catch (JSONException | IOException e) {
+        } catch (JSONException | IOException | ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
             return false;
         }

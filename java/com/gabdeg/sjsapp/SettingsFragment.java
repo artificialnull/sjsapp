@@ -56,6 +56,18 @@ public class SettingsFragment extends Fragment {
                         .format(sampleCalendar.getTime())
         );
 
+        view.findViewById(R.id.sign_out_button).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editor.putString("username", "");
+                        editor.putString("password", "");
+                        editor.apply();
+                        Toast.makeText(getContext(), "Signed out", Toast.LENGTH_LONG).show();
+                        getActivity().finish();
+                    }
+                }
+        );
 
         view.findViewById(R.id.settings_time_button).setOnClickListener(new View.OnClickListener() {
             @Override

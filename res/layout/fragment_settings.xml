@@ -145,6 +145,13 @@
                 android:text="@string/default_date_format"
                 android:id="@+id/settings_date_preview"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/settings_log_out"
+                android:id="@+id/sign_out_button"/>
+
         </LinearLayout>
     </ScrollView>
 
