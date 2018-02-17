@@ -3,15 +3,20 @@ package com.gabdeg.sjsapp;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +32,8 @@ public class ScheduleFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AppCompatActivity mContext;
+
+    float minTimeWidth;
 
     public ArrayList<Browser.ScheduledClass> scheduledClasses;
     Calendar calendar = Calendar.getInstance();
@@ -53,6 +60,35 @@ public class ScheduleFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL));
         mContext = (AppCompatActivity) getActivity();
+
+        Calendar sampleCalendar = Calendar.getInstance();
+        sampleCalendar.set(Calendar.HOUR_OF_DAY, 11);
+        sampleCalendar.set(Calendar.MINUTE, 59);
+        // set a calendar to 11:59 AM so that we can find the min width of our time section
+        // so that we can guarantee proper formatting no matter what the user chooses as their
+        // time format
+
+        LinearLayout linearLayout = new LinearLayout(mContext);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        TextView timeWidthTextView = new TextView(mContext);
+        timeWidthTextView.setText(
+                new SimpleDateFormat(
+                        PreferenceManager.getDefaultSharedPreferences(mContext)
+                                .getString("time_format", "HH:mm")
+                ).format(sampleCalendar.getTime())
+        );
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        timeWidthTextView.setPadding(
+                (int) (displayMetrics.density * 24 + 0.5f), 0, 0, 0);
+        linearLayout.addView(timeWidthTextView);
+
+        timeWidthTextView.measure(0, 0);
+        minTimeWidth = timeWidthTextView.getMeasuredWidth() / ((float) displayMetrics.widthPixels);
+
+        Log.v("MIN_TIME_WIDTH", String.valueOf(minTimeWidth));
+
         new GetScheduleTask().execute();
         return view;
 
@@ -123,6 +159,7 @@ public class ScheduleFragment extends Fragment {
             public TextView mClassRoom;
             public TextView mClassTeacher;
             public View mClassHighlight;
+            public Guideline mClassGuideline;
 
             public ViewHolder(View v) {
                 super(v);
@@ -133,6 +170,7 @@ public class ScheduleFragment extends Fragment {
                 mClassRoom = (TextView) v.findViewById(R.id.schedule_item_room);
                 mClassTeacher = (TextView) v.findViewById(R.id.schedule_item_teacher);
                 mClassHighlight = (View) v.findViewById(R.id.schedule_item_highlight);
+                mClassGuideline = (Guideline) v.findViewById(R.id.name_time_sep);
             }
         }
 
@@ -146,6 +184,11 @@ public class ScheduleFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)
+                    holder.mClassGuideline.getLayoutParams();
+            params.guidePercent = minTimeWidth;
+            holder.mClassGuideline.setLayoutParams(params);
+
             Browser.ScheduledClass scheduledClass = scheduledClasses.get(position);
             holder.mClassName.setText(scheduledClass.getClassName());
 

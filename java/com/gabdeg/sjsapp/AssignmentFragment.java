@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +13,14 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
@@ -23,6 +28,7 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -35,6 +41,8 @@ public class AssignmentFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    float minDateWidth;
 
     public ArrayList<Browser.Assignment> assignments;
     public static Comparator<Browser.Assignment> chosenComparator;
@@ -64,6 +72,36 @@ public class AssignmentFragment extends Fragment {
         if (chosenComparator == null) {
             chosenComparator = new DueComparator();
         }
+
+
+        Calendar sampleCalendar = Calendar.getInstance();
+        sampleCalendar.set(Calendar.MONTH, Calendar.DECEMBER);
+        sampleCalendar.set(Calendar.DAY_OF_MONTH, 31);
+        // set a calendar to 12-31 so that we can find the min width of our date section
+        // so that we can guarantee proper formatting no matter what the user chooses as their
+        // date format
+
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        TextView dateWidthTextView = new TextView(getContext());
+        dateWidthTextView.setText(
+                new SimpleDateFormat(
+                        PreferenceManager.getDefaultSharedPreferences(getContext())
+                                .getString("date_format", "yyyy-MM-dd")
+                ).format(sampleCalendar.getTime())
+        );
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        dateWidthTextView.setPadding(
+                (int) (displayMetrics.density * 16 + 0.5f), 0, 0, 0);
+        linearLayout.addView(dateWidthTextView);
+
+        dateWidthTextView.measure(0, 0);
+        minDateWidth = dateWidthTextView.getMeasuredWidth() / ((float) displayMetrics.widthPixels);
+
+        Log.v("MIN_DAte_WIDTH", String.valueOf(minDateWidth));
+
         new GetAssignmentsTask().execute();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Assignments");
 
@@ -175,6 +213,7 @@ public class AssignmentFragment extends Fragment {
             public TextView mAssignmentType;
             public HtmlTextView mAssignmentShort;
             public TextView mAssignmentStatus;
+            public Guideline mAssignmentGuideline;
 
             public ViewHolder(View v) {
                 super(v);
@@ -184,6 +223,7 @@ public class AssignmentFragment extends Fragment {
                 mAssignmentStatus = (TextView) v.findViewById(R.id.assignment_item_status);
                 mAssignmentType = (TextView) v.findViewById(R.id.assignment_item_type);
                 mAssignmentShort = (HtmlTextView) v.findViewById(R.id.assignment_item_short);
+                mAssignmentGuideline = (Guideline) v.findViewById(R.id.name_time_sep);
             }
         }
 
@@ -197,6 +237,11 @@ public class AssignmentFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)
+                    holder.mAssignmentGuideline.getLayoutParams();
+            params.guidePercent = minDateWidth;
+            holder.mAssignmentGuideline.setLayoutParams(params);
+
             final String[] choices = {"To Do", "In Progress", "Completed", "Overdue",
                     "Unknown", "Graded"};
             final int[] colorChoices = {

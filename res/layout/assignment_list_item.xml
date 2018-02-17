@@ -11,16 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.025"
+        app:layout_constraintGuide_begin="16dp"
         android:id="@+id/left_spacer"/>
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.975"
+        app:layout_constraintGuide_end="16dp"
         android:id="@+id/right_spacer"/>
-
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -45,7 +44,7 @@
         app:layout_constraintRight_toRightOf="@+id/name_info_sep"
         android:gravity="start"
         android:paddingBottom="4dp"
-        android:paddingStart="8dp"
+        android:paddingStart="16dp"
         android:paddingEnd="8dp"/>
 
     <TextView
@@ -57,7 +56,7 @@
         app:layout_constraintRight_toRightOf="@+id/name_time_sep"
         android:gravity="end"
         android:paddingBottom="4dp"
-        android:paddingEnd="4dp"/>
+        />
 
     <TextView
         android:layout_width="0dp"
@@ -70,7 +69,7 @@
         android:gravity="end"
         android:paddingTop="4dp"
         android:paddingBottom="8dp"
-        android:paddingEnd="4dp"/>
+        />
 
     <TextView
         android:layout_width="0dp"
@@ -105,7 +104,7 @@
         app:layout_constraintTop_toBottomOf="@+id/assignment_item_class"
         android:paddingTop="4dp"
         android:paddingBottom="8dp"
-        android:paddingStart="8dp"
+        android:paddingStart="16dp"
         android:paddingEnd="8dp" />
 
 </android.support.constraint.ConstraintLayout>
