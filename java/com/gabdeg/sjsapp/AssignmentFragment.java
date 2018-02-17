@@ -54,6 +54,9 @@ public class AssignmentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_assignments, container, false);
 
         ((MainActivity) getActivity()).setNavigationChecked(R.id.drawer_assignments);
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_left, false);
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_right, false);
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_sort, true);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.assignment_swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(

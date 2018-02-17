@@ -38,6 +38,10 @@ public class ProfileFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Profile");
 
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_left, false);
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_right, false);
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_sort, false);
+
         profileSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.profile_swipe_refresh_layout);
         profileFullName = (TextView) view.findViewById(R.id.profile_photo_title);
         profileEmail = (TextView) view.findViewById(R.id.profile_photo_caption);

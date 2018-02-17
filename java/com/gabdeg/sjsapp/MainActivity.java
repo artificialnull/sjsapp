@@ -27,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
 
-    private MenuItem scheduleLeftArrow;
-    private MenuItem scheduleRightArrow;
-    private MenuItem assignmentSorting;
+    private static Menu actionMenu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
                                         new ScheduleFragment());
                                 fragmentTransaction.addToBackStack(null).commit();
 
-                                scheduleLeftArrow.setVisible(true);
-                                scheduleRightArrow.setVisible(true);
-                                assignmentSorting.setVisible(false);
-
                                 break;
                             case "Assignments":
                                 Log.v("ASSIGNMENTS", "Opening...");
@@ -92,10 +86,6 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentTransaction.replace(R.id.content_frame,
                                         new AssignmentFragment());
                                 fragmentTransaction.addToBackStack(null).commit();
-
-                                scheduleLeftArrow.setVisible(false);
-                                scheduleRightArrow.setVisible(false);
-                                assignmentSorting.setVisible(true);
 
                                 break;
 
@@ -106,10 +96,6 @@ public class MainActivity extends AppCompatActivity {
                                         new ProfileFragment());
                                 fragmentTransaction.addToBackStack(null).commit();
 
-                                scheduleLeftArrow.setVisible(false);
-                                scheduleRightArrow.setVisible(false);
-                                assignmentSorting.setVisible(false);
-
                                 break;
 
                             case "Settings":
@@ -119,10 +105,6 @@ public class MainActivity extends AppCompatActivity {
                                         .replace(R.id.content_frame, new SettingsFragment())
                                         .addToBackStack(null)
                                         .commit();
-
-                                scheduleLeftArrow.setVisible(false);
-                                scheduleRightArrow.setVisible(false);
-                                assignmentSorting.setVisible(false);
 
                                 break;
 
@@ -153,10 +135,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actions, menu);
-        scheduleLeftArrow = menu.findItem(R.id.action_left);
-        scheduleRightArrow = menu.findItem(R.id.action_right);
-        assignmentSorting = menu.findItem(R.id.action_sort);
+        actionMenu = menu;
+        Log.v("OPTIONS", "Menu created!");
         return true;
+    }
+
+    public void setMenuButtonVisibility(int id, boolean isVisible) {
+        if (actionMenu != null) {
+            actionMenu.findItem(id).setVisible(isVisible);
+        }
     }
 
     @Override

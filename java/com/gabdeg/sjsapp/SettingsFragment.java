@@ -28,6 +28,10 @@ public class SettingsFragment extends Fragment {
         final Calendar sampleCalendar = Calendar.getInstance();
         sampleCalendar.set(2001, Calendar.FEBRUARY, 2, 13, 37, 0);
 
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_left, false);
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_right, false);
+        ((MainActivity) getActivity()).setMenuButtonVisibility(R.id.action_sort, false);
+
         ((MainActivity) getActivity()).setNavigationChecked(R.id.drawer_settings);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Settings");

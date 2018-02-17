@@ -44,7 +44,11 @@ public class ScheduleFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        ((MainActivity) getActivity()).setNavigationChecked(R.id.drawer_schedule);
+        mContext = (AppCompatActivity) getActivity();
+        ((MainActivity) mContext).setNavigationChecked(R.id.drawer_schedule);
+        ((MainActivity) mContext).setMenuButtonVisibility(R.id.action_left, true);
+        ((MainActivity) mContext).setMenuButtonVisibility(R.id.action_right, true);
+        ((MainActivity) mContext).setMenuButtonVisibility(R.id.action_sort, false);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.schedule_swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(
@@ -59,7 +63,6 @@ public class ScheduleFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL));
-        mContext = (AppCompatActivity) getActivity();
 
         Calendar sampleCalendar = Calendar.getInstance();
         sampleCalendar.set(Calendar.HOUR_OF_DAY, 11);
