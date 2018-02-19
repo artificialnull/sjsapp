@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,15 +73,17 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 String timeFormatString = ((EditText) view.findViewById(R.id.settings_time_box))
                         .getText().toString();
-                editor.putString("time_format", timeFormatString);
-                editor.apply();
-
-                ((TextView) view.findViewById(R.id.settings_time_preview)).setText(
-                        new SimpleDateFormat(timeFormatString).format(sampleCalendar.getTime())
-                );
-
-                Toast.makeText(getContext(), "Time format saved", Toast.LENGTH_SHORT).show();
-
+                try {
+                    ((TextView) view.findViewById(R.id.settings_time_preview)).setText(
+                            new SimpleDateFormat(timeFormatString).format(sampleCalendar.getTime())
+                    );
+                    editor.putString("time_format", timeFormatString);
+                    editor.apply();
+                    Toast.makeText(getContext(), "Time format saved", Toast.LENGTH_SHORT).show();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Invalid time format", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -91,19 +92,20 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 String dateFormatString = ((EditText) view.findViewById(R.id.settings_date_box))
                         .getText().toString();
-                editor.putString("date_format", dateFormatString);
-                editor.apply();
+                try {
+                    ((TextView) view.findViewById(R.id.settings_date_preview)).setText(
+                            new SimpleDateFormat(dateFormatString).format(sampleCalendar.getTime())
+                    );
+                    editor.putString("date_format", dateFormatString);
+                    editor.apply();
+                    Toast.makeText(getContext(), "Date format saved", Toast.LENGTH_SHORT).show();
 
-                ((TextView) view.findViewById(R.id.settings_date_preview)).setText(
-                        new SimpleDateFormat(dateFormatString).format(sampleCalendar.getTime())
-                );
-
-                Toast.makeText(getContext(), "Date format saved", Toast.LENGTH_SHORT).show();
-
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_LONG).show();
+                }
             }
         });
-
-
 
         return view;
     }
