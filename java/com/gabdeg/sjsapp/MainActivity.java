@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -199,8 +200,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        mDrawerToggle.onConfigurationChanged(newConfig);
         super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     public void setNavigationChecked(int resourceID) {
@@ -268,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Browser.User user) {
             ((TextView) findViewById(R.id.drawer_header_name)).setText(user.getUserFirstName());
             ((TextView) findViewById(R.id.drawer_header_email)).setText(user.getUserEmail());
+            setNavigationChecked(R.id.drawer_schedule);
         }
     }
 
