@@ -8,7 +8,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -27,7 +26,6 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -246,16 +244,6 @@ public class AssignmentFragment extends Fragment {
             params.guidePercent = minDateWidth;
             holder.mAssignmentGuideline.setLayoutParams(params);
 
-            final String[] choices = {"To Do", "In Progress", "Completed", "Overdue",
-                    "Unknown", "Graded"};
-            final int[] colorChoices = {
-                    R.color.toDoColor,
-                    R.color.inProgressColor,
-                    R.color.completedColor,
-                    R.color.overdueColor,
-                    R.color.unknownColor,
-                    R.color.gradedColor
-            };
             final Browser.Assignment assignment = assignments.get(position);
             holder.mAssignmentClass.setText(assignment.getAssignmentClass());
 
@@ -267,41 +255,20 @@ public class AssignmentFragment extends Fragment {
             holder.mAssignmentAssigned.setText(toFormat.format(assignment.getAssignmentAssigned()));
             holder.mAssignmentDue.setText(toFormat.format((assignment.getAssignmentDue())));
 
-            holder.mAssignmentStatus.setText(assignment.getAssignmentStatus());
-            holder.mAssignmentStatus.setTextColor(
-                    getResources().getColor(colorChoices[
-                            Arrays.asList(choices)
-                                    .indexOf(holder.mAssignmentStatus.getText())
-                            ])
-            );
-            if (!assignment.getAssignmentStatus().equals("Graded")) {
-                holder.mAssignmentStatus.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                holder.mAssignmentStatus.setText(
-                                        choices[
-                                                (
-                                                        Arrays.asList(choices).indexOf(
-                                                                holder.mAssignmentStatus.getText()
-                                                        ) + 1
-                                                ) % 3
-                                                ]
-                                );
-                                holder.mAssignmentStatus.setTextColor(
-                                        getResources().getColor(colorChoices[
-                                                Arrays.asList(choices)
-                                                        .indexOf(holder.mAssignmentStatus.getText())
-                                                ])
-                                );
-                                assignment.setAssignmentStatus(
-                                        holder.mAssignmentStatus.getText().toString()
-                                );
-                                new UpdateAssignmentStatusTask().execute(assignment);
-                            }
+            holder.mAssignmentStatus.setText(assignment.getAssignmentStatus().getStatusDescription());
+            holder.mAssignmentStatus.setTextColor(getResources().getColor(assignment.getAssignmentStatus().getStatusColor()));
+            //Log.v("COLOR", String.valueOf(assignment.getAssignmentStatus().getStatusColor()));
+            holder.mAssignmentStatus.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            assignment.setAssignmentStatus(assignment.getNextAssignmentStatus());
+                            holder.mAssignmentStatus.setText(assignment.getAssignmentStatus().getStatusDescription());
+                            holder.mAssignmentStatus.setTextColor(getResources().getColor(assignment.getAssignmentStatus().getStatusColor()));
+                            new UpdateAssignmentStatusTask().execute(assignment);
                         }
-                );
-            }
+                    }
+            );
 
             holder.mAssignmentType.setText(assignment.getAssignmentType());
             holder.mAssignmentShort.setHtml(assignment.getAssignmentShort());

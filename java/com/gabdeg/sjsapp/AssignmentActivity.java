@@ -20,7 +20,6 @@ import android.widget.TextView;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 
 /**
  * Created by ishan on 1/27/18.
@@ -44,52 +43,29 @@ public class AssignmentActivity extends AppCompatActivity {
         assignment = (Browser.Assignment) intent.getSerializableExtra(ASSIGNMENT_ID);
 
         final Button statusButton = (Button) findViewById(R.id.assignment_status);
-        final String[] choices = {"To Do", "In Progress", "Completed", "Overdue",
-                "Unknown", "Graded"};
-        final int[] colorChoices = {
-                R.color.toDoColor,
-                R.color.inProgressColor,
-                R.color.completedColor,
-                R.color.overdueColor,
-                R.color.unknownColor,
-                R.color.gradedColor
-        };
 
-        statusButton.setText(assignment.getAssignmentStatus());
+        statusButton.setText(assignment.getAssignmentStatus().getStatusDescription());
         statusButton.getBackground().setColorFilter(
-                getResources().getColor(colorChoices[
-                        Arrays.asList(choices)
-                                .indexOf(statusButton.getText())
-                        ]), PorterDuff.Mode.MULTIPLY
+                getResources().getColor(assignment.getAssignmentStatus().getStatusColor()),
+                PorterDuff.Mode.MULTIPLY
         );
-        if (!assignment.getAssignmentStatus().equals("Graded")) {
-            statusButton.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            statusButton.setText(
-                                    choices[
-                                            (
-                                                    Arrays.asList(choices).indexOf(
-                                                            statusButton.getText()
-                                                    ) + 1
-                                            ) % 3
-                                            ]
-                            );
-                            statusButton.getBackground().setColorFilter(
-                                    getResources().getColor(colorChoices[
-                                            Arrays.asList(choices)
-                                                    .indexOf(statusButton.getText())
-                                            ]), PorterDuff.Mode.MULTIPLY
-                            );
-                            assignment.setAssignmentStatus(
-                                    statusButton.getText().toString()
-                            );
-                            new UpdateAssignmentStatusTask().execute();
-                        }
+        statusButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        assignment.setAssignmentStatus(assignment.getNextAssignmentStatus());
+                        statusButton.setText(
+                                assignment.getAssignmentStatus().getStatusDescription()
+                        );
+                        statusButton.getBackground().setColorFilter(
+                                getResources().getColor(assignment.getAssignmentStatus().getStatusColor()),
+                                PorterDuff.Mode.MULTIPLY
+                        );
+                        new UpdateAssignmentStatusTask().execute();
                     }
-            );
-        }
+                }
+        );
+
 
         new GetAssignmentTask().execute();
 

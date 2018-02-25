@@ -26,7 +26,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -299,16 +299,13 @@ public class Browser {
         try {
             JSONObject toPost = new JSONObject();
             toPost.put("assignmentIndexId", assignment.getAssignmentIndexID());
-            String[] choices = {"To Do", "In Progress", "Completed"};
-            toPost.put("assignmentStatus", String.valueOf(
-                    Arrays.asList(choices).indexOf(assignment.getAssignmentStatus()) - 1
-            ));
+            toPost.put("assignmentStatus", assignment.getAssignmentStatus().getStatusCode());
             Log.v("ASSIGNMENTS", toPost.toString(2));
             Log.v("token", requestVerificationToken);
             postJSON("https://sjs.myschoolapp.com/api/assignment2/assignmentstatusupdate"
-                    + "?format=json"
-                    + "&assignmentIndexId=" + toPost.getString("assignmentIndexId")
-                    + "&assignmentStatus=" + toPost.getString("assignmentStatus"),
+                    + "?format=json",
+                    //+ "&assignmentIndexId=" + toPost.getString("assignmentIndexId")
+                    //+ "&assignmentStatus=" + toPost.getString("assignmentStatus"),
                     toPost
             );
 
@@ -449,11 +446,60 @@ public class Browser {
             return this;
         }
 
-        public String getAssignmentStatus() {
+        public static class AssignmentStatus implements Serializable {
+            public String getStatusDescription() {
+                return statusDescription;
+            }
+
+            public AssignmentStatus setStatusDescription(String statusDescription) {
+                this.statusDescription = statusDescription;
+                return this;
+            }
+
+            public int getStatusCode() {
+                return statusCode;
+            }
+
+            public AssignmentStatus setStatusCode(int statusCode) {
+                this.statusCode = statusCode;
+                return this;
+            }
+
+            public int getStatusColor() {
+                return statusColor;
+            }
+
+            public AssignmentStatus setStatusColor(int statusColor) {
+                this.statusColor = statusColor;
+                return this;
+            }
+
+            public AssignmentStatus getNext(Date due) {
+                return statusNext.onNext(due);
+            }
+
+            public AssignmentStatus setNext(OnNextListener nextListener) {
+                this.statusNext = nextListener;
+                return this;
+            }
+
+            public static class OnNextListener implements Serializable {
+                public AssignmentStatus onNext(Date due) {
+                    return null;
+                }
+            }
+
+            String  statusDescription;
+            int     statusCode;
+            int     statusColor;
+            OnNextListener statusNext;
+        }
+
+        public AssignmentStatus getAssignmentStatus() {
             return assignmentStatus;
         }
 
-        public Assignment setAssignmentStatus(String assignmentStatus) {
+        public Assignment setAssignmentStatus(AssignmentStatus assignmentStatus) {
             this.assignmentStatus = assignmentStatus;
             return this;
         }
@@ -461,27 +507,96 @@ public class Browser {
         public Assignment setAssignmentStatus(int assignmentStatus) {
             switch (assignmentStatus) {
                 case -1:
-                    this.assignmentStatus = "To Do";
+                    this.assignmentStatus = Assignment.ToDo;
                     return this;
                 case 0:
-                    this.assignmentStatus = "In Progress";
+                    this.assignmentStatus = Assignment.InProgress;
                     return this;
                 case 1:
-                    this.assignmentStatus = "Completed";
+                    this.assignmentStatus = Assignment.Completed;
                     return this;
                 case 2:
-                    this.assignmentStatus = "Overdue";
+                    this.assignmentStatus = Assignment.Overdue;
                     return this;
                 case 4:
-                    this.assignmentStatus = "Graded";
+                    this.assignmentStatus = Assignment.Graded;
                     return this;
                 default:
-                    this.assignmentStatus = "Unknown";
+                    this.assignmentStatus = Assignment.Unknown;
                     return this;
             }
         }
 
-        String assignmentStatus;
+        public static AssignmentStatus ToDo = new AssignmentStatus()
+                .setStatusDescription("To Do")
+                .setStatusCode(-1)
+                .setStatusColor(R.color.toDoColor)
+                .setNext(new AssignmentStatus.OnNextListener() {
+                    @Override
+                    public AssignmentStatus onNext(Date due) {
+                        return Assignment.InProgress;
+                    }
+                });
+        public static AssignmentStatus InProgress = new AssignmentStatus()
+                .setStatusDescription("In Progress")
+                .setStatusCode(0)
+                .setStatusColor(R.color.inProgressColor)
+                .setNext(new AssignmentStatus.OnNextListener() {
+                    @Override
+                    public AssignmentStatus onNext(Date due) {
+                        return Assignment.Completed;
+                    }
+                });
+        public static AssignmentStatus Completed = new AssignmentStatus()
+                .setStatusDescription("Completed")
+                .setStatusCode(1)
+                .setStatusColor(R.color.completedColor)
+                .setNext(new AssignmentStatus.OnNextListener() {
+                    @Override
+                    public AssignmentStatus onNext(Date due) {
+                        if (Calendar.getInstance().getTime().after(due)) {
+                            return Assignment.Overdue;
+                        } else {
+                            return Assignment.ToDo;
+                        }
+                    }
+                });
+        public static AssignmentStatus Overdue = new AssignmentStatus()
+                .setStatusDescription("Overdue")
+                .setStatusCode(2)
+                .setStatusColor(R.color.overdueColor)
+                .setNext(new AssignmentStatus.OnNextListener() {
+                    @Override
+                    public AssignmentStatus onNext(Date due) {
+                        return Assignment.InProgress;
+                    }
+                });
+        public static AssignmentStatus Unknown = new AssignmentStatus()
+                .setStatusDescription("Unknown")
+                .setStatusCode(3)
+                .setStatusColor(R.color.unknownColor)
+                .setNext(new AssignmentStatus.OnNextListener() {
+                    @Override
+                    public AssignmentStatus onNext(Date due) {
+                        return Assignment.ToDo;
+                    }
+                });
+        public static AssignmentStatus Graded = new AssignmentStatus()
+                .setStatusDescription("Graded")
+                .setStatusCode(4)
+                .setStatusColor(R.color.gradedColor)
+                .setNext(new AssignmentStatus.OnNextListener() {
+                    @Override
+                    public AssignmentStatus onNext(Date due) {
+                        return Assignment.Graded;
+                    }
+                });
+
+        public AssignmentStatus getNextAssignmentStatus() {
+            return assignmentStatus.getNext(assignmentDue);
+        }
+
+        AssignmentStatus assignmentStatus;
         String assignmentClass;
         String assignmentShort;
         String assignmentLong;
