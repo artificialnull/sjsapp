@@ -269,7 +269,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Browser.User user) {
             ((TextView) findViewById(R.id.drawer_header_name)).setText(user.getUserFirstName());
             ((TextView) findViewById(R.id.drawer_header_email)).setText(user.getUserEmail());
-
             setNavigationChecked(R.id.drawer_schedule);
         }
     }
